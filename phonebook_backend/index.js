@@ -81,21 +81,15 @@ app.post('/api/persons', (request, response) => {
   const body = request.body
   const id = Math.round(Math.random() * 1000000)
 
-  if(!body.name) {
+  if (!body.name) {
     return response.status(400).json({
       error: "name missing"
     })
   }
 
-  if(!body.number) {
+  if (!body.number) {
     return response.status(400).json({
       error: "number missing"
-    })
-  }
-
-  if(persons.find(person => person.name === body.name)) {
-    return response.status(400).json({
-      error: "name must be unique"
     })
   }
 
@@ -105,7 +99,7 @@ app.post('/api/persons', (request, response) => {
     id: id,
   })
 
-  person.save().then(savedPerson => {
+  Person.create(person).then(savedPerson => {
     response.json(savedPerson)
   })
 })
@@ -118,5 +112,5 @@ app.use(unknownEndpoint)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
