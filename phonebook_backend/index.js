@@ -81,7 +81,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  const id = Math.round(Math.random() * 1000000)
 
   if (!body.name) {
     return response.status(400).json({
@@ -97,8 +96,7 @@ app.post('/api/persons', (request, response) => {
 
   const person = new Person({
     name: body.name,
-    number: body.number,
-    id: id,
+    number: body.number
   })
 
   Person.create(person).then(savedPerson => {
