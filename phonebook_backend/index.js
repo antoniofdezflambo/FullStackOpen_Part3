@@ -53,9 +53,14 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-  const now = new Date()
-  response.send(`<p>Phonebook has info for ${Person.length} people</p><p>${now.toString()}</p>`)
+  Person.countDocuments({})
+    .then(count => {
+      const now = new Date()
+      response.send(`<p>Phonebook has info for ${count} people</p><p>${now.toString()}</p>`)
+    })
 })
+
+
 
 app.get('/api/persons/:id', (request, response) => {
   Person.findById(request.params.id).then(person => {
@@ -104,6 +109,12 @@ app.post('/api/persons', (request, response) => {
     response.json(savedPerson)
   })
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
