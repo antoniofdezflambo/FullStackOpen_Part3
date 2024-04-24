@@ -10,7 +10,7 @@ app.use(morgan('tiny'))
 app.use(cors())
 app.use(express.static('dist'))
 
-morgan.token('body', (req, res) => req.method === 'POST' ? JSON.stringify(req.body) : '');
+morgan.token('body', (req) => req.method === 'POST' ? JSON.stringify(req.body) : '')
 
 app.use(morgan(function (tokens, req, res) {
   return [
@@ -48,7 +48,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findByIdAndDelete(request.params.id).then(result => {
+  Person.findByIdAndDelete(request.params.id).then(() => {
     response.status(204).end()
   })
     .catch(error => next(error))
@@ -59,7 +59,7 @@ app.post('/api/persons', (request, response, next) => {
 
   if (!body.number) {
     return response.status(400).json({
-      error: "number missing"
+      error: 'number missing'
     })
   }
 
@@ -71,7 +71,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
