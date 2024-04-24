@@ -56,6 +56,9 @@ const App = () => {
 
           changeNotification(`Added ${newPerson.name}`)
         })
+        .catch(error => 
+          changeError(error.response.data.error)
+        )
       }
     }
   }
